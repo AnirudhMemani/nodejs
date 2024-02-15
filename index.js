@@ -5,6 +5,7 @@ const cors = require("cors");
 
 app.use(express.json());
 app.use(cors());
+app.use(express());
 
 const voices = [
   {
@@ -80,6 +81,14 @@ app.post("/audio-stream", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+app.post("/portfolio-mail", async (req, res) => {
+  const fullName = req.body.fullName;
+  const email = req.body.email;
+  const subject = req.body.subject;
+  const number = req.body.number;
+  const message = req.body.message;
+})
 
 app.listen(3000, () => {
   console.log("Server is running on port 3000");
