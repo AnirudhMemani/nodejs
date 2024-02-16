@@ -101,8 +101,8 @@ app.post("/portfolio-mail", async (req, res) => {
       port: 465,
       secure: true,
       auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWORD,
+        user: ${{EMAIL}},
+        pass: ${{PASSWORD}},
       },
     });
     let mailOptions = {
