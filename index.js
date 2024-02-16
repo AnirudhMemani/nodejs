@@ -4,10 +4,11 @@ const axios = require("axios");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
+const bodyParser = require("body-parser");
 
-app.use(express.json());
 app.use(cors());
 app.use(express());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 const port = process.env.PORT || 3000;
 
@@ -93,6 +94,7 @@ app.post("/portfolio-mail", async (req, res) => {
   const number = req.body.number || "Not Given";
   const message = req.body.message || "Not Given";
 
+  <console.log("fullName:", fullName);
   try {
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
@@ -121,6 +123,7 @@ app.post("/portfolio-mail", async (req, res) => {
       }
     });
   } catch (error) {
+    console.log("error:", error);
     res.status(500).json({
       msg: "Internal Server Error",
     });
