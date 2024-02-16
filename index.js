@@ -94,7 +94,7 @@ app.post("/portfolio-mail", async (req, res) => {
   const number = req.body.number || "Not Given";
   const message = req.body.message || "Not Given";
 
-  <console.log("fullName:", fullName);
+  console.log("fullName:", fullName);
   try {
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
