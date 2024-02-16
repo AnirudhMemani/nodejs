@@ -88,11 +88,17 @@ app.post("/audio-stream", async (req, res) => {
 });
 
 app.post("/portfolio-mail", async (req, res) => {
-  const fullName = req.body.fullName || "Not Given";
-  const email = req.body.email || "Not Given";
-  const subject = req.body.subject || "Recieved from Portfolio website";
-  const number = req.body.number || "Not Given";
-  const message = req.body.message || "Not Given";
+  const { fullName, email, subject, number, message } = req.body;
+  console.log("\nfullName:", fullName);
+  console.log("\nemail:", email);
+  console.log("\nsubject:", subject);
+  console.log("\n\number:", number);
+  console.log("\nmessage:", message);
+  // const fullName = req.body.fullName || "Not Given";
+  // const email = req.body.email || "Not Given";
+  // const subject = req.body.subject || "Recieved from Portfolio website";
+  // const number = req.body.number || "Not Given";
+  // const message = req.body.message || "Not Given";
 
   try {
     const transporter = nodemailer.createTransport({
