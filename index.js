@@ -5,6 +5,18 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 const bodyParser = require("body-parser");
+const rateLimit = require("express-rate-limit");
+
+const apiLimiter = rateLimit({
+  windowMs: 24 * 60 * 60 * 1000, // 1 day window
+  max: 2, // Limit each IP to 2 requests per window
+  message: "Too many requests from this IP, please try again tomorrow",
+  handler: (req, res, next) => {
+    return res.status(429).json({
+      msg: "You've exceeded the rate limit. Please try again later.",
+    });
+  },
+});
 
 app.use(cors());
 app.use(express());
@@ -87,13 +99,7 @@ app.post("/audio-stream", async (req, res) => {
   }
 });
 
-app.post("/portfolio-mail", async (req, res) => {
-  // const { fullName, email, subject, number, message } = req.body;
-  // console.log("\nfullName:", fullName);
-  // console.log("\nemail:", email);
-  // console.log("\nsubject:", subject);
-  // console.log("\n\number:", number);
-  // console.log("\nmessage:", message);
+app.post("/portfolio-mail", apiLimiter, async (req, res) => {
   const fullName = req.body.fullName || "Not Given";
   const email = req.body.email || "Not Given";
   const subject = req.body.subject || "Recieved from Portfolio website";
