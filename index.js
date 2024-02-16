@@ -2,10 +2,14 @@ const express = require("express");
 const app = express();
 const axios = require("axios");
 const cors = require("cors");
+const nodemailer = require("nodemailer");
+require("dotenv").config();
 
 app.use(express.json());
 app.use(cors());
 app.use(express());
+
+const port = process.env.PORT || 3000;
 
 const voices = [
   {
@@ -83,13 +87,46 @@ app.post("/audio-stream", async (req, res) => {
 });
 
 app.post("/portfolio-mail", async (req, res) => {
-  const fullName = req.body.fullName;
-  const email = req.body.email;
-  const subject = req.body.subject;
-  const number = req.body.number;
-  const message = req.body.message;
-})
+  const fullName = req.body.fullName || "Not Given";
+  const email = req.body.email || "Not Given";
+  const subject = req.body.subject || "Recieved from Portfolio website";
+  const number = req.body.number || "Not Given";
+  const message = req.body.message || "Not Given";
 
-app.listen(3000, () => {
-  console.log("Server is running on port 3000");
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: process.env.EMAIL,
+        pass: process.env.PASSWORD,
+      },
+    });
+    let mailOptions = {
+      from: process.env.EMAIL,
+      to: "whyisntitallowedcomeonman@gmail.com",
+      subject: subject,
+      text: `Full Name: ${fullName}\nEmail: ${email}\nNumber: ${number}\n\nMessage: ${message}`,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        res.status(500).json({
+          msg: "Error sending mail",
+        });
+      } else {
+        res.status(200).json({
+          msg: "Mail sent Successfully",
+        });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({
+      msg: "Internal Server Error",
+    });
+  }
+});
+
+app.listen(port, () => {
+  console.log("Server is running on port" + port);
 });
