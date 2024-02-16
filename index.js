@@ -113,6 +113,7 @@ app.post("/portfolio-mail", async (req, res) => {
     };
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
+        console.log("SendMail Error:", error);
         res.status(500).json({
           msg: "Error sending mail",
         });
@@ -123,7 +124,7 @@ app.post("/portfolio-mail", async (req, res) => {
       }
     });
   } catch (error) {
-    console.log("error:", error);
+    console.log("Try&Catch Error:", error);
     res.status(500).json({
       msg: "Internal Server Error",
     });
