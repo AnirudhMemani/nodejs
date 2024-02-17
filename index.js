@@ -5,7 +5,7 @@ const cors = require("cors");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 const bodyParser = require("body-parser");
-const rateLimit = require("express-rate-limit");
+const { rateLimit } = require("express-rate-limit");
 
 app.use(cors());
 app.use(express());
