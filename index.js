@@ -1,5 +1,5 @@
 const express = require("express");
-app.enable("trust proxy");
+app.set("trust proxy", 1);
 const app = express();
 const axios = require("axios");
 const cors = require("cors");
@@ -138,6 +138,8 @@ app.post("/portfolio-mail", apiLimiter, async (req, res) => {
     });
   }
 });
+
+app.get("/ip", (request, response) => response.send(request.ip));
 
 app.listen(port, () => {
   console.log("Server is running on port " + port);
