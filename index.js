@@ -15,6 +15,8 @@ const apiLimiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000, // 1 day window
   max: 2, // Limit each IP to 2 requests per window
   message: "Too many requests from this IP, please try again tomorrow",
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
 const port = process.env.PORT || 3000;
