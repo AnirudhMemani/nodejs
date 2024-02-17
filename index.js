@@ -18,6 +18,12 @@ const apiLimiter = rateLimit({
   message: "Too many requests from this IP, please try again tomorrow",
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  handler: (req, res) => {
+    // Optional: Customize blocked response
+    return res.status(429).json({
+      error: "You've exceeded the rate limit. Please try again later.",
+    });
+  },
 });
 
 const port = process.env.PORT || 3000;
