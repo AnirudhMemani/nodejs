@@ -20,8 +20,8 @@ const apiLimiter = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
   handler: (req, res) => {
     // Optional: Customize blocked response
-    return res.status(429).json({
-      error: "You've exceeded the rate limit. Please try again later.",
+    return res.status(500).json({
+      msg: "You've exceeded the rate limit. Please try again later.",
     });
   },
 });
