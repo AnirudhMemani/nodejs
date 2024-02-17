@@ -1,4 +1,5 @@
 const express = require("express");
+app.enable("trust proxy");
 const app = express();
 const axios = require("axios");
 const cors = require("cors");
@@ -17,6 +18,7 @@ const apiLimiter = rateLimit({
   message: "Too many requests from this IP, please try again tomorrow",
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+  // validate: { xForwardedForHeader: false },
 });
 
 const port = process.env.PORT || 3000;
@@ -138,5 +140,5 @@ app.post("/portfolio-mail", apiLimiter, async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("Server is running on port" + port);
+  console.log("Server is running on port " + port);
 });
