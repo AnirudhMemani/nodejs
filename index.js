@@ -7,20 +7,15 @@ require("dotenv").config();
 const bodyParser = require("body-parser");
 const rateLimit = require("express-rate-limit");
 
+app.use(cors());
+app.use(express());
+app.use(bodyParser.json());
+
 const apiLimiter = rateLimit({
   windowMs: 24 * 60 * 60 * 1000, // 1 day window
   max: 2, // Limit each IP to 2 requests per window
   message: "Too many requests from this IP, please try again tomorrow",
-  handler: (req, res, next) => {
-    return res.status(429).json({
-      msg: "You've exceeded the rate limit. Please try again later.",
-    });
-  },
 });
-
-app.use(cors());
-app.use(express());
-app.use(bodyParser.json());
 
 const port = process.env.PORT || 3000;
 
