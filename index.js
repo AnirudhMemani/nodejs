@@ -144,8 +144,6 @@ app.post("/portfolio-mail", apiLimiter, async (req, res) => {
   }
 });
 
-app.get("/ip", (request, response) => response.send(request.ip));
-
 app.listen(port, () => {
   console.log("Server is running on port " + port);
 });
